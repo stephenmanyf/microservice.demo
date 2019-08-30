@@ -3,3 +3,12 @@ $ mvn clean package
 
 #build docker image
 docker build -t stephenman/microservices.account .
+
+#build a tagged docker image
+$ ./mvnw install dockerfile:build
+
+#run this docker image
+$ docker run -d -p 8080:8080 stephenman/microservices.account:latest -n ms-account
+
+#Push to dockerhub
+$ docker push stephenman/microservices.account:latest
