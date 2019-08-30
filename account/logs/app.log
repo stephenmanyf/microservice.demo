@@ -1,5 +1,0 @@
-[INFO ] 2019-08-30 18:37:10.741 [restartedMain] AccountApplication - Starting AccountApplication on L-1901-01.local with PID 7596 (/Users/stephenman/Workspace/microservices-demo/account/target/classes started by stephenman in /Users/stephenman/Workspace/microservices-demo/account)
-[DEBUG] 2019-08-30 18:37:10.750 [restartedMain] AccountApplication - Running with Spring Boot v2.1.7.RELEASE, Spring v5.1.9.RELEASE
-[INFO ] 2019-08-30 18:37:10.751 [restartedMain] AccountApplication - No active profile set, falling back to default profiles: default
-[INFO ] 2019-08-30 18:37:11.454 [restartedMain] AccountApplication - Started AccountApplication in 0.789 seconds (JVM running for 49.275)
-[DEBUG] 2019-08-30 18:37:31.230 [http-nio-8080-exec-1] AccountController - getAccountByAccountNo - accountNo: 100-10000
