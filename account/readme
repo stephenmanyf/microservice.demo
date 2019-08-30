@@ -1,0 +1,5 @@
+#package into jar file
+$ mvn clean package
+
+#build docker image
+docker build -t stephenman/microservices.account .
