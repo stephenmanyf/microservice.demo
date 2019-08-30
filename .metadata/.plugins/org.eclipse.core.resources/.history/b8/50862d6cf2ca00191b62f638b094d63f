@@ -1,0 +1,5 @@
+package com.example.microservices.demo.entity;
+
+public class Account {
+
+}

@@ -1,0 +1,5 @@
+package com.example.microservices.demo.controller;
+
+public class AccountController {
+
+}

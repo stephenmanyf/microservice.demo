@@ -1,0 +1,15 @@
+package com.example.microservices.demo.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.microservices.demo.entity.Account;
+
+@RestController
+@RequestMapping("account/")
+public class AccountController {
+
+	@PostRequest("")
+	public Account openAccount(Account account) {
+		return account;
+	}
+}

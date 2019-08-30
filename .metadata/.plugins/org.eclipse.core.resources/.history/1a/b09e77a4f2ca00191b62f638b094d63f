@@ -1,0 +1,6 @@
+package com.example.microservices.demo.entity;
+
+public class Account {
+	private String accountNo;
+	private double balance;
+}

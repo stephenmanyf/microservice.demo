@@ -1,0 +1,10 @@
+package com.example.microservices.demo.entity;
+
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+public class Account {
+	private Long id;
+	private String accountNo;
+	private double balance;
+}
