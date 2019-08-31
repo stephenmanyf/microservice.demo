@@ -18,17 +18,61 @@ Configuration:
             size: 10MB
         DefaultRollOverStrategy:
           max: 10
+    Console:
+      - name: ConsoleJSONAppender
+        target: SYSTEM_OUT
+        JsonLayout:
+          complete: false
+          compact: false
+          KeyValuePair:
+            - key: myCustomField
+              value: myCustomValue
+    RollingFile:
+      - name: LogToJsonRollingFile
+        fileName: logs/app_json.log
+        filePattern: "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.app_json_log.gz"
+        JsonLayout:
+          complete: false
+          compact: false
+          KeyValuePair:
+            - key: myCustomField
+              value: myCustomValue
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 10MB
+        DefaultRollOverStrategy:
+          max: 10
 
   Loggers:
+#    logger:
+#      - name: com.example.microservices.demo
+#        level: debug
+#        additivity: false
+#        AppenderRef:
+#          - ref: LogToConsole
+#          - ref: LogToRollingFile
     logger:
+#      - name: CONSOLE_JSON_APPENDER
       - name: com.example.microservices.demo
-        level: debug
+        level: TRACE
         additivity: false
         AppenderRef:
-          - ref: LogToConsole
-          - ref: LogToRollingFile
+          - ref: ConsoleJSONAppender
+          - ref: LogToJsonRollingFile
 
     Root:
       level: error
       AppenderRef:
         ref: LogToConsole
+        
+#<Appenders>
+#    <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+#        <JsonLayout complete="false" compact="false">
+#            <KeyValuePair key="myCustomField" value="myCustomValue" />
+#        </JsonLayout>
+#    </Console>
+#</Appenders>
+# 
+#<Logger name="CONSOLE_JSON_APPENDER" level="TRACE" additivity="false">
+#    <AppenderRef ref="ConsoleJSONAppender" />
+#</Logger>
