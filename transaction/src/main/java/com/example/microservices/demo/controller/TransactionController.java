@@ -15,7 +15,7 @@ import com.example.microservices.demo.entity.Transaction;
 import com.example.microservices.demo.service.TransactionService;
 
 @RestController
-@RequestMapping("/txn")
+@RequestMapping("/v1")
 public class TransactionController {
 	
 	@Autowired

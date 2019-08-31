@@ -1,5 +1,6 @@
 package com.example.microservices.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,9 @@ public class AccountService {
 	
 	public Account saveAccount(Account account) {
 		return accountRepo.save(account);
+	}
+	
+	public List<Account> getAllAccounts() {
+		return accountRepo.findAll();
 	}
 }
