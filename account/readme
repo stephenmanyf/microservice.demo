@@ -2,7 +2,7 @@
 $ mvn clean package
 
 #build docker image
-docker build -t stephenman/microservices.account .
+$ docker build -t stephenman/microservices.account .
 
 #build a tagged docker image
 $ ./mvnw install dockerfile:build

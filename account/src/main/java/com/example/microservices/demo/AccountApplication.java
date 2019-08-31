@@ -20,6 +20,10 @@ public class AccountApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		initData();
+	}
+	
+	private void initData() {
 		Account account1 = new Account("100-10000", 0.0d); 
 		account1 = this.accountService.saveAccount(account1);
 		

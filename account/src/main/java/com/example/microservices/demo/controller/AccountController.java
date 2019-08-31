@@ -17,7 +17,7 @@ import com.example.microservices.demo.entity.Account;
 import com.example.microservices.demo.service.AccountService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/account")
 public class AccountController {
 	private static final Logger logger = LogManager.getLogger(AccountController.class);
 	
