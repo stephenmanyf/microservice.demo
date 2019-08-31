@@ -1,0 +1,14 @@
+#package into jar file
+$ mvn clean package
+
+#build docker image
+$ docker build -t stephenman/microservices.transaction .
+
+#build a tagged docker image
+$ ./mvnw install dockerfile:build
+
+#run this docker image
+$ docker run -d -p 8081:8081 stephenman/microservices.transaction:latest -n ms-transaction
+
+#Push to dockerhub
+$ docker push stephenman/microservices.transaction:latest
