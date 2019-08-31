@@ -1,5 +1,0 @@
-package com.example.microservices.demo.service;
-
-public class AccountService {
-
-}
