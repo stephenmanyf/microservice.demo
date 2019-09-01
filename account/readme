@@ -2,13 +2,14 @@
 $ mvn clean package
 
 #build docker image
-$ docker build -t stephenman/microservices.account .
+#$ docker build -t stephenman/microservices.account .
+$ docker build --build-arg=target/*.jar -t stephenman/microservices.account .
 
 #build a tagged docker image
 $ ./mvnw install dockerfile:build
 
 #run this docker image
-$ docker run -d -p 8080:8080 stephenman/microservices.account:latest -n ms-account
+$ docker run -d -p 8080:8080 --name ms-account stephenman/microservices.account:latest
 
 #Push to dockerhub
 $ docker push stephenman/microservices.account:latest
