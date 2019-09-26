@@ -17,11 +17,11 @@ public class AccountService {
 	@Autowired
 	private AccountRepo accountRepo;
 	
-	public Optional<Account> getAccountByAccountNo(String accountNo) {
+	public Optional<Account> loadAccountByAccountNo(String accountNo) {
 		return accountRepo.findByAccountNo(accountNo);
 	}
 	
-	public Optional<Account> getAccountById(long id) {
+	public Optional<Account> loadAccountById(long id) {
 		return accountRepo.findById(id);
 	}
 	

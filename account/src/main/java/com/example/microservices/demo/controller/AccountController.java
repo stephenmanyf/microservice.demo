@@ -1,10 +1,13 @@
 package com.example.microservices.demo.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +33,20 @@ public class AccountController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Account> getAccountById(@PathVariable long id) {
 		logger.debug("getAccountById - id: {}", () -> id);
-		Account account = this.accountService.getAccountById(id).orElse(null);
+		Account account = this.accountService.loadAccountById(id).orElse(null);
 		
 		return new ResponseEntity<>(account, HttpStatus.OK);
 	}
 	
-	private List<Account> getAllAccounts() {
+	private List<Account> getAllAccounts() throws UnknownHostException {
 		logger.debug("getAllAccounts");
+		
 		List<Account> result = this.accountService.getAllAccounts();
 		return result;
 	}
 	
 	@GetMapping
-	public ResponseEntity<Object> getAccount(@RequestParam(name="accountNo", required=false) String accountNo) {
+	public ResponseEntity<Object> getAccount(@RequestParam(name="accountNo", required=false) String accountNo) throws UnknownHostException {
 		logger.debug("getAccount - accountNo: {}", () -> accountNo);
 		
 		Object result;
@@ -52,13 +56,12 @@ public class AccountController {
 		} else {
 			result = this.getAllAccounts();
 		}
-		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	private Account getAccountByAccountNo(@RequestParam(name="accountNo") String accountNo) {
 		logger.debug("getAccountByAccountNo - accountNo: {}", () -> accountNo);
-		Account account = this.accountService.getAccountByAccountNo(accountNo).orElse(null);
+		Account account = this.accountService.loadAccountByAccountNo(accountNo).orElse(null);
 		
 		return account;
 	}

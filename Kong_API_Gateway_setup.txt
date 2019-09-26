@@ -1,0 +1,90 @@
+#$ docker run -d --name kong-database \
+#                -p 9042:9042 \
+#                cassandra:3
+
+
+
+
+# create network
+$ docker network create kong-net
+
+
+$ docker run -d --name kong-database --network=kong-net -p 5432:5432 -e POSTGRES_USER=kong -e POSTGRES_DB=kong postgres:9.6
+
+
+#$ docker run --rm \
+#    --link kong-database:kong-database \
+#    -e "KONG_DATABASE=cassandra" \
+#    -e "KONG_PG_HOST=kong-database" \
+#    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+#    kong kong migrations bootstrap
+
+#$ docker run -d --name kong \
+#    --link kong-database:kong-database \
+#    -e "KONG_DATABASE=postgres" \
+#   -e "KONG_PG_HOST=kong-database" \
+#    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+#    -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+#    -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+#    -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+#    -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+#    -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+#    -p 8000:8000 \
+#    -p 8443:8443 \
+#    -p 8001:8001 \
+#    -p 8444:8444 \
+#    kong
+
+
+$ docker run --rm --network=kong-net -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-database" kong:latest kong migrations bootstrap
+
+$ docker run -d --name kong \     
+             --network=kong-net \
+             -e "KONG_DATABASE=postgres" \
+             -e "KONG_PG_HOST=kong-database" \
+             -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+             -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+             -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+             -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+             -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+             -p 8000:8000 \
+             -p 8443:8443 \
+             -p 8001:8001 \
+             -p 8444:8444 \
+             kong:latest
+
+
+# this is for no postgres DB
+$ docker run -d -p 1337:1337 \
+--network=kong-net \
+--name konga \
+-v /var/data/kongadata:/app/kongadata \
+-e "NODE_ENV=production" \
+pantsel/konga
+or 
+$ docker run -d -p 1337:1337 --network=kong-net --name konga -v /app/kongadata -e "NODE_ENV=production" pantsel/konga
+
+# this is for having postgres DB
+$ docker run --rm --network=kong-net pantsel/konga -c prepare -a postgres -u postgresql://kong@kong-database:5432/konga_db
+
+$ docker run -d -p 1337:1337 --network=kong-net -e "DB_ADAPTER=postgres" -e "DB_HOST=kong-database" -e "DB_USER=kong" -e "DB_DATABASE=konga_db" -e "KONGA_HOOK_TIMEOUT=120000" -e "NODE_ENV=production" --name konga pantsel/konga
+
+---
+# start up account services
+$ docker run -d -p 8080:8080 --network=kong-net --name ms-account stephenman/microservices.account:latest
+Or
+$ docker stack deploy -c docker-compose.yml ms-account
+
+# test account service
+$ curl -i localhost:8080/account/v1
+
+# creating service in Kong for account service
+$ curl -i -X POST --url http://localhost:8001/services/ --data 'name=account-service' --data 'url=http://localhost:8080/account/v1'
+
+$ curl -i -X POST --url http://localhost:8001/services/account-service/routes \
+-H 'Content-Type: application/json' \
+-d '{"name":"account-v1-route", "protocols": ["http", "https"], "methods": ["GET", "POST", "DELETE", "PUT", "PATCH"], \
+"hosts": ["stephen.man"], "paths": ["/accountServices/v1"]}'
+
+
+$ docker run -d -p 8081:8081 --network=kong-net --name ms-transaction stephenman/microservices.transaction:latest

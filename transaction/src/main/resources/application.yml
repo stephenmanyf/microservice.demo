@@ -15,5 +15,5 @@ spring:
         
 server:
   servlet:
-    context-path: /transactionService
+    context-path: /transactionServices
   port: 8081

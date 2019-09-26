@@ -15,5 +15,5 @@ spring:
 
 server:
   servlet:
-    context-path: /accountService
+    context-path: /accountServices
   port: 8080

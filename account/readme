@@ -9,7 +9,13 @@ $ docker build --build-arg=target/*.jar -t stephenman/microservices.account .
 $ ./mvnw install dockerfile:build
 
 #run this docker image
-$ docker run -d -p 8080:8080 --name ms-account stephenman/microservices.account:latest
+$ docker run -d -p 8080:8080 --network=kong-net --name ms-account stephenman/microservices.account:latest
 
 #Push to dockerhub
 $ docker push stephenman/microservices.account:latest
+
+
+---
+
+#start mongo
+docker run --name mongo -d -p 27017:27107 mongo

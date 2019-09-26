@@ -8,7 +8,7 @@ $ docker build -t stephenman/microservices.transaction .
 $ ./mvnw install dockerfile:build
 
 #run this docker image
-$ docker run -d -p 8081:8081 --name ms-transaction stephenman/microservices.transaction:latest
+$ docker run -d -p 8081:8081 --network=kong-net --name ms-transaction stephenman/microservices.transaction:latest
 
 #Push to dockerhub
 $ docker push stephenman/microservices.transaction:latest
