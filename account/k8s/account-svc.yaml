@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: account
+  name: account-svc
+  namespace: demo
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 30081
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: account
+  sessionAffinity: None
+  type: LoadBalancer

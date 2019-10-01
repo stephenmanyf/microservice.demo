@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    run: keycloak
+  name: keycloak
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    run: keycloak
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: keycloak
+    spec:
+      containers:
+      - image: jboss/keycloak:6.0.1
+        imagePullPolicy: Always
+        name: keycloak
+        env:
+        - name: KEYCLOAK_USER
+          value: "admin"
+        - name: KEYCLOAK_PASSWORD
+          value: "adminpwd"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
