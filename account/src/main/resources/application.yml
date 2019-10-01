@@ -12,8 +12,32 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+  main.allow-bean-definition-overriding: true
 
 server:
   servlet:
-    context-path: /accountServices
+    context-path: /accountServices 
   port: 8080
+
+keycloak:
+  enabled: true
+  realm: demo
+  auth-server-url: http://localhost:8070/auth
+#  public-client: true
+  resource: account-services
+  cors: true
+  credentials:
+    secret: secret
+  bearer-only: true
+  ssl-required: external
+  security-constraints[0]:
+    security-collections[0]:
+      name: public endpoints
+      patterns[0]: /v1/public/* #public endpoint; no role is associated with it
+  security-constraints[1]:
+    auth-roles[0]: authenticated-user #user must have `authenticated-user` role to access the resource
+    security-collections[0]:
+      name: protected endpoints
+      patterns[0]: /* #secure all endpoints by default
+  use-resource-role-mappings: false # this one cannot be true, or this one should be removed!
+  principal-attribute: preferred_username
