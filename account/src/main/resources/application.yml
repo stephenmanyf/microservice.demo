@@ -16,7 +16,7 @@ spring:
 
 server:
   servlet:
-    context-path: /accountServices 
+    context-path: /accountService
   port: 8080
 
 keycloak:
@@ -24,7 +24,7 @@ keycloak:
   realm: demo
   auth-server-url: http://localhost:8070/auth
 #  public-client: true
-  resource: account-services
+  resource: account-service
   cors: true
   credentials:
     secret: secret
@@ -35,9 +35,10 @@ keycloak:
       name: public endpoints
       patterns[0]: /v1/public/* #public endpoint; no role is associated with it
   security-constraints[1]:
-    auth-roles[0]: authenticated-user #user must have `authenticated-user` role to access the resource
+    auth-roles[0]: user #user must have `authenticated-user` role to access the resource
     security-collections[0]:
       name: protected endpoints
       patterns[0]: /* #secure all endpoints by default
-  use-resource-role-mappings: false # this one cannot be true, or this one should be removed!
+#  use-resource-role-mappings: false # this one cannot be true, or this one should be removed!
+#  autodetect-bearer-only: true
   principal-attribute: preferred_username

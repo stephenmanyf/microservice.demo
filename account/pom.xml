@@ -66,10 +66,10 @@
 		    <type>pom</type>
 		</dependency>
 		
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+		</dependency> -->
 		
         <!-- exclude logback , add log4j2 -->
         <dependency>
