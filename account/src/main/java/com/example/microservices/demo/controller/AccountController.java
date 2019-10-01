@@ -1,13 +1,11 @@
 package com.example.microservices.demo.controller;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +27,16 @@ public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@GetMapping("/public")
+	public String getPublicTest() {
+		return "This is public!!!";
+	}
+	
+	@GetMapping("/private")
+	public String getPrivateTest() {
+		return "This is private......";
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Account> getAccountById(@PathVariable long id) {
