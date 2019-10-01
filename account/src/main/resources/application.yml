@@ -22,7 +22,7 @@ server:
 keycloak:
   enabled: true
   realm: demo
-  auth-server-url: http://localhost:8070/auth
+  auth-server-url: http://microservices.demo:30070/auth
 #  public-client: true
   resource: account-service
   cors: true
